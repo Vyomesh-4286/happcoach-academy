@@ -1,6 +1,0 @@
----
-// /academy → sends visitors to the first course. Replace with a course list later.
-import { courses } from '../data/courses';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-return Astro.redirect(`${base}/courses/${courses[0].slug}`);
----

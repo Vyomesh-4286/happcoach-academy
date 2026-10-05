@@ -1,6 +1,3 @@
-/* Fonts — delete this line if your Webflow global.css already loads your fonts */
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap');
-
 /* ==========================================================================
    Happ Coach Academy — course detail page
    Every class is prefixed "hc-" so nothing clashes with the Webflow global.css
@@ -30,17 +27,20 @@
   --hc-testi-active: #372f0e;
   --hc-faq-open: #27251d;
 
-  --hc-font-heading: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --hc-font-body: 'Urbanist', 'Helvetica Neue', Arial, sans-serif;
+  /* Fonts come from your Webflow site (webflow/css/fonts.css via DevLink) */
+  --hc-font-heading: 'Faro 600', Arial, sans-serif;
+  --hc-font-heading-regular: 'Faro 400', Arial, sans-serif;
+  --hc-font-heading-bold: 'Faro 700', Arial, sans-serif;
+  --hc-font-body: 'Satoshi Variable', Arial, sans-serif;
 
   --hc-container: 1280px;
   --hc-gutter: 80px;
-  --hc-nav-h: 72px; /* height of the Webflow Navbar component */
+  --hc-nav-h: 72px; /* height of the Webflow Navbar (it is position: fixed) */
   --hc-radius: 12px;
 }
 
 @media (max-width: 991px) { :root { --hc-gutter: 40px; } }
-@media (max-width: 767px) { :root { --hc-gutter: 20px; --hc-nav-h: 64px; } }
+@media (max-width: 767px) { :root { --hc-gutter: 20px; } }
 
 /* ---------- base ---------- */
 .hc-page {
@@ -51,6 +51,7 @@
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  padding-top: var(--hc-nav-h); /* the Webflow navbar is fixed, so push content below it */
 }
 .hc-page *, .hc-page *::before, .hc-page *::after { box-sizing: border-box; }
 /* :where() keeps these resets at zero specificity so component classes win */
@@ -66,8 +67,8 @@
   padding-inline: var(--hc-gutter);
 }
 .hc-h2 {
-  font-family: var(--hc-font-heading);
-  font-weight: 500;
+  font-family: var(--hc-font-heading-regular);
+  font-weight: 400;
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -143,7 +144,7 @@
   font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
 }
 .hc-hero__title {
   margin-top: 22px;
@@ -159,7 +160,7 @@
 .hc-hero__desc { margin-top: 26px; color: var(--hc-muted); font-size: 16px; line-height: 1.5; max-width: 450px; }
 .hc-hero__meta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 36px; color: var(--hc-muted); }
 .hc-hero__meta > span { display: inline-flex; align-items: center; gap: 8px; }
-.hc-hero__rating { color: var(--hc-yellow); font-family: var(--hc-font-heading); font-weight: 700; font-size: 20px; gap: 10px !important; }
+.hc-hero__rating { color: var(--hc-yellow); font-family: var(--hc-font-heading-bold); font-weight: 700; font-size: 20px; gap: 10px !important; }
 
 /* ---------- enroll card ---------- */
 .hc-enroll {
@@ -173,7 +174,7 @@
 .hc-enroll__body { padding: 30px 22px 32px; }
 .hc-enroll__eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #bdbdbd; }
 .hc-price { display: flex; align-items: baseline; gap: 12px; margin-top: 4px; }
-.hc-price strong { font-family: var(--hc-font-heading); font-weight: 700; font-size: 38px; line-height: 1.1; letter-spacing: -0.01em; }
+.hc-price strong { font-family: var(--hc-font-heading-bold); font-weight: 700; font-size: 38px; line-height: 1.1; letter-spacing: -0.01em; }
 .hc-price small { font-size: 13px; letter-spacing: 0.04em; color: #bdbdbd; }
 .hc-enroll .hc-btn--lg { margin-top: 22px; }
 .hc-enroll__guarantee { text-align: center; margin-top: 14px; font-size: 16px; color: #e6e6e6; }
@@ -223,7 +224,7 @@
   border-radius: var(--hc-radius);
   padding: 26px 23px 24px;
 }
-.hc-info h3 { font-family: var(--hc-font-heading); font-weight: 500; font-size: 24px; line-height: 1.25; }
+.hc-info h3 { font-family: var(--hc-font-heading); font-weight: 600; font-size: 24px; line-height: 1.25; }
 .hc-info p { margin-top: 14px; color: var(--hc-muted); font-size: 15px; line-height: 1.6; }
 
 /* ---------- curriculum ---------- */
@@ -253,7 +254,7 @@
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 22px 23px 23px;
   font-family: var(--hc-font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 24px;
   line-height: 1.25;
 }
@@ -268,11 +269,11 @@
   display: flex; align-items: center; gap: 18px;
   padding: 22px 24px 22px 26px;
   font-family: var(--hc-font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
 }
 .hc-module__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hc-module .hc-pill { color: var(--hc-white); border-color: var(--hc-white); font-family: var(--hc-font-body); font-weight: 500; }
+.hc-module .hc-pill { color: var(--hc-white); border-color: var(--hc-white); font-family: var(--hc-font-body); font-weight: 600; }
 .hc-module[open] .hc-pill { background: rgba(255,255,255,.12); }
 .hc-module > summary .hc-chev { transform: rotate(-90deg); }
 .hc-module[open] > summary .hc-chev { transform: rotate(0); }
@@ -324,7 +325,7 @@
 .hc-testi blockquote { margin: 22px 0 0; font-size: 17px; line-height: 1.5; flex: 1; }
 .hc-testi footer { margin-top: 32px; display: flex; align-items: center; gap: 16px; }
 .hc-testi__avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: #444; flex: none; }
-.hc-testi__name { font-family: var(--hc-font-heading); font-weight: 500; font-size: 20px; flex: 1; }
+.hc-testi__name { font-family: var(--hc-font-heading); font-weight: 600; font-size: 20px; flex: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .hc-marquee__row { animation: none; }
@@ -347,7 +348,7 @@
 .hc-course:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 0 var(--hc-white); }
 .hc-course__img { width: 100%; height: 100%; object-fit: cover; border-right: 1px solid #e8e8e8; }
 .hc-course__body { padding: 26px 23px 23px; display: flex; flex-direction: column; }
-.hc-course__title { font-family: var(--hc-font-heading); font-weight: 500; font-size: 24px; line-height: 1.25; }
+.hc-course__title { font-family: var(--hc-font-heading); font-weight: 600; font-size: 24px; line-height: 1.25; }
 .hc-course__text { margin-top: 10px; font-size: 16px; line-height: 1.5; color: #e6e6e6; }
 .hc-course .hc-price { margin-top: 16px; }
 .hc-course .hc-price strong { font-size: 30px; }
@@ -369,7 +370,7 @@
   display: flex; align-items: center; justify-content: space-between; gap: 24px;
   padding: 25px 28px 25px 31px;
   font-family: var(--hc-font-heading);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 22px;
   line-height: 1.3;
 }
@@ -382,7 +383,7 @@
 .hc-faq[open] .hc-faq__icon::after { transform: rotate(0); }
 .hc-faq__answer { padding: 0 31px 26px; color: var(--hc-muted); font-size: 19px; line-height: 1.6; }
 .hc-faqs__more { margin-top: 100px; }
-.hc-faqs__more h3 { font-family: var(--hc-font-heading); font-weight: 500; font-size: 32px; }
+.hc-faqs__more h3 { font-family: var(--hc-font-heading); font-weight: 600; font-size: 32px; }
 .hc-faqs__more .hc-btn { margin-top: 22px; font-size: 15px; padding: 11px 22px; }
 
 /* ==========================================================================

@@ -1,0 +1,31 @@
+/* -------------------------------------------------------------------------
+   Fixes for DevLink's CSS layer order.
+   DevLink puts Webflow's built-in styles (.w-nav-link etc.) in the "defaults"
+   layer and your site's tag styles (a { text-decoration: underline }) in the
+   later "tags" layer, so links inside the Navbar/Footer come out underlined.
+   Adding these rules to the same "tags" layer restores Webflow's behaviour.
+   This file MUST be imported after webflow/css/global.css.
+   ------------------------------------------------------------------------- */
+@layer tags {
+  .w-nav-link,
+  .w-nav-brand,
+  .w-dropdown-toggle,
+  .w-dropdown-link,
+  .w-inline-block,
+  .w-button {
+    text-decoration: none;
+  }
+}
+
+/* Webflow's layout utilities that DevLink doesn't export yet.
+   Without them, Flex blocks (like the footer's main row) stack vertically. */
+@layer defaults {
+  .w-layout-hflex { display: flex; flex-direction: row; align-items: flex-start; }
+  .w-layout-vflex { display: flex; flex-direction: column; align-items: flex-start; }
+  .w-layout-blockcontainer { max-width: 940px; margin-left: auto; margin-right: auto; display: block; }
+}
+
+/* Footer page links have no underline in the design. */
+@layer classes {
+  .footer-page-link { text-decoration: none; }
+}
