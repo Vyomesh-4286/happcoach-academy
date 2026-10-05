@@ -1,0 +1,34 @@
+/* Fonts */
+
+@font-face {
+  font-family: "Satoshi Variable";
+  src: url("https://cdn.prod.website-files.com/68d367f89a1176cba2647b5f/68d36cef1ef6ec20b5097e81_Satoshi-Variable.ttf")
+    format("truetype");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Faro 600";
+  src: url("https://cdn.prod.website-files.com/68d367f89a1176cba2647b5f/68d36dde1146b13b605eef72_Faro-SemiBoldLucky.ttf")
+    format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Faro 700";
+  src: url("https://cdn.prod.website-files.com/68d367f89a1176cba2647b5f/68d36ddef8787e0b64266067_Faro-BoldLucky.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Faro 400";
+  src: url("https://cdn.prod.website-files.com/68d367f89a1176cba2647b5f/68d36ddef36e805c8716b892_Faro-RegularLucky.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
