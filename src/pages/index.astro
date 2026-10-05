@@ -1,0 +1,19 @@
+---
+// /app (or whatever your mount path is) → list of all courses.
+// Pre-rendered like the course pages, so it's served as a static file.
+import Layout from '../layouts/Layout.astro';
+import ExploreCourses from '../components/course/ExploreCourses.astro';
+import { courseCards } from '../data/courses';
+import '../styles/course.css';
+
+export const prerender = true;
+---
+<Layout title="Courses | Happ Coach Academy">
+  <div class="hc-page">
+    <ExploreCourses
+      cards={courseCards}
+      title="Happ Coach Academy courses"
+      subtitle="Pick a course to see its curriculum, reviews and price."
+    />
+  </div>
+</Layout>

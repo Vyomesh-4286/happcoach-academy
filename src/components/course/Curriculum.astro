@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+import type { Course } from '../../data/courses';
+interface Props { course: Course }
+const { course } = Astro.props;
+const { topics, summary, downloadHref } = course.curriculum;
+---
+<section class="hc-curriculum hc-anchor" id="curriculum">
+  <h2 class="hc-h2">Top-tier curriculum</h2>
+  <p class="hc-curriculum__summary">{summary}</p>
+
+  <div class="hc-topics">
+    {topics.map((topic, ti) => (
+      <details class="hc-topic" open={ti === 0}>
+        <summary>
+          <span>{topic.title}</span>
+          <Icon name="chevron-down" class="hc-chev" size={20} />
+        </summary>
+        <div class="hc-topic__modules">
+          {topic.modules.map((mod, mi) => (
+            <details class="hc-module" open={ti === 0 && mi === 0}>
+              <summary>
+                <Icon name="chevron-down" class="hc-chev" size={20} />
+                <span class="hc-module__title" title={mod.title}>{mod.title}</span>
+                <span class="hc-pill">Module {mi + 1}</span>
+              </summary>
+              <ul class="hc-lessons">
+                {mod.lessons.map((lesson) => (
+                  <li class="hc-lesson">
+                    <Icon name={lesson.type} size={22} />
+                    <span class="hc-lesson__title">{lesson.title}</span>
+                    <span class="hc-lesson__time">{lesson.duration}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <a class="hc-btn" href={downloadHref} download>Download full curriculum</a>
+</section>

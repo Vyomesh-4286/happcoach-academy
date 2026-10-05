@@ -1,0 +1,30 @@
+---
+import { withBase } from '../../lib/url';
+import type { CourseCard } from '../../data/courses';
+interface Props { cards: CourseCard[]; title?: string; subtitle?: string }
+const {
+  cards,
+  title = 'Explore More Courses',
+  subtitle = 'Explore the best in E-learning across our catalogue',
+} = Astro.props;
+---
+<section class="hc-explore">
+  <div class="hc-container">
+    <h2 class="hc-h2">{title}</h2>
+    <p class="hc-sub">{subtitle}</p>
+
+    <div class="hc-explore__grid">
+      {cards.map((c) => (
+        <a class="hc-course" href={withBase(`courses/${c.slug}`)}>
+          <img class="hc-course__img" src={withBase(c.image)} alt="" width="256" height="256" loading="lazy" />
+          <div class="hc-course__body">
+            <h3 class="hc-course__title">{c.title}</h3>
+            <p class="hc-course__text">{c.text}</p>
+            <p class="hc-price"><strong>{c.price}</strong><small>{c.priceNote}</small></p>
+            <span class="hc-pill">{c.tag}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
