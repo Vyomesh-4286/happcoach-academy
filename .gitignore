@@ -1,0 +1,27 @@
+# Dependencies (npm install thi fari bani jay)
+node_modules/
+
+# Build output (Webflow Cloud pote build kare chhe)
+dist/
+
+# Astro na generated files
+.astro/
+
+# Secrets — WEBFLOW_API_TOKEN aa file ma hoy chhe
+.env
+.env.*
+!.env.example
+
+# Wrangler / Cloudflare local data
+.wrangler/
+.dev.vars
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
