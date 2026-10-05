@@ -1,0 +1,36 @@
+---
+const tabs = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'curriculum', label: 'Curriculum' },
+  { id: 'reviews', label: 'Reviews' },
+  { id: 'faqs', label: 'FAQs' },
+];
+---
+<nav class="hc-tabs" aria-label="Course sections" data-hc-tabs>
+  {tabs.map((t, i) => (
+    <a href={`#${t.id}`} aria-current={i === 0 ? 'true' : 'false'}>{t.label}</a>
+  ))}
+</nav>
+
+<script>
+  // Highlights the tab for the section currently in view.
+  const nav = document.querySelector<HTMLElement>('[data-hc-tabs]');
+  if (nav) {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    const sections = links
+      .map((a) => document.getElementById(a.hash.slice(1)))
+      .filter((el): el is HTMLElement => !!el);
+
+    const setActive = (id: string) =>
+      links.forEach((a) => a.setAttribute('aria-current', String(a.hash === `#${id}`)));
+
+    const onScroll = () => {
+      const offset = nav.getBoundingClientRect().bottom + 40;
+      let current = sections[0]?.id;
+      for (const s of sections) if (s.getBoundingClientRect().top <= offset) current = s.id;
+      if (current) setActive(current);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

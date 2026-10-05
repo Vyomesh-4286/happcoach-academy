@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { withBase } from '../../lib/url';
+import type { Testimonial } from '../../data/courses';
+interface Props { items: Testimonial[] }
+const { items } = Astro.props;
+
+// Two rows that scroll in opposite directions, like the Webflow design.
+const half = Math.ceil(items.length / 2);
+const rows = [items.slice(0, half), items.slice(half)].filter((r) => r.length);
+---
+<section class="hc-testimonials hc-anchor" id="reviews">
+  <div class="hc-container">
+    <h2 class="hc-h2">Testimonials</h2>
+  </div>
+
+  <div class="hc-marquee">
+    {rows.map((row, ri) => (
+      <div class={`hc-marquee__row ${ri % 2 ? 'hc-marquee__row--reverse' : ''}`}>
+        {[0, 1].map((copy) => (
+          <div class="hc-marquee__set" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {row.map((t) => (
+              <figure class="hc-testi">
+                <Icon name="quote" size={34} />
+                <blockquote>{t.quote}</blockquote>
+                <footer>
+                  {t.avatar
+                    ? <img class="hc-testi__avatar" src={withBase(t.avatar)} alt="" width="48" height="48" loading="lazy" />
+                    : <span class="hc-testi__avatar" />}
+                  <figcaption class="hc-testi__name">{t.name}</figcaption>
+                  <span class="hc-stars" aria-label={`${t.rating} out of 5 stars`}>
+                    {Array.from({ length: t.rating }, () => <Icon name="star" size={20} />)}
+                  </span>
+                </footer>
+              </figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
