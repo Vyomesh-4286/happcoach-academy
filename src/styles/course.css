@@ -272,7 +272,7 @@
   font-weight: 600;
   font-size: 20px;
 }
-.hc-module__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hc-module__title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .hc-module .hc-pill { color: var(--hc-white); border-color: var(--hc-white); font-family: var(--hc-font-body); font-weight: 600; }
 .hc-module[open] .hc-pill { background: rgba(255,255,255,.12); }
 .hc-module > summary .hc-chev { transform: rotate(-90deg); }
