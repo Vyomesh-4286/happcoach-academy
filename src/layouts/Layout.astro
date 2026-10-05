@@ -1,0 +1,35 @@
+---
+// Wraps every page with your Webflow Navbar + Footer (exported by DevLink).
+import { DevLinkProvider } from '@webflow/DevLinkProvider';
+import { Navbar } from '@webflow/Navbar';
+import { Footer } from '@webflow/Footer';
+import '../../webflow/css/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+  </head>
+  <body>
+    <DevLinkProvider client:load>
+      <Navbar client:load />
+      <main><slot /></main>
+      <Footer client:load />
+    </DevLinkProvider>
+  </body>
+</html>
+
+<style is:global>
+  html, body { margin: 0; background: #1a1a1a; }
+</style>

@@ -1,0 +1,14 @@
+{
+  "siteId": "PUT_YOUR_HAPPCOACH_SITE_ID_HERE",
+  "cloud": {
+    "framework": "astro"
+  },
+  "devlink-export": {
+    "rootDir": "./webflow",
+    "components": "Navbar|Footer",
+    "componentGroups": ".*",
+    "ts": true,
+    "cssScopes": true,
+    "relativeHrefRoot": "/"
+  }
+}

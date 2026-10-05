@@ -1,42 +1,76 @@
-# Happ Coach Academy — course detail template (Astro)
+# Happ Coach Academy — Astro app for Webflow Cloud
 
-Drop-in files for the Astro app you created with `webflow cloud init`.
-Header and footer come from your Webflow components through DevLink, so they
-are NOT in this folder — the page uses your existing `src/layouts/Layout.astro`.
+A complete Astro project. The course detail page uses your Webflow **Navbar** and
+**Footer** components, pulled in with DevLink.
 
-## Install
-
-Copy the folders into your project root (merge, don't replace):
+## Project structure
 
 ```
-src/components/course/   → all page sections
-src/data/courses.ts      → course content (edit this)
-src/lib/url.ts           → base-path helper for /academy
-src/styles/course.css    → all styles (hc- prefixed)
-src/pages/courses/[slug].astro → the page
-public/images/courses/   → placeholder images (replace with real ones)
+happcoach-academy/
+├── package.json            ← dependencies + scripts
+├── package-lock.json
+├── astro.config.mjs        ← Astro + React integration + @webflow alias
+├── tsconfig.json
+├── webflow.json            ← Webflow Cloud + DevLink settings (add your site ID)
+├── public/
+│   ├── favicon.svg
+│   └── images/courses/     ← placeholder images, replace with real ones
+├── webflow/                ← DevLink output (placeholders until you export)
+│   ├── DevLinkProvider.tsx
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   └── css/global.css
+└── src/
+    ├── layouts/Layout.astro        ← Navbar + page + Footer
+    ├── pages/index.astro           ← redirects to the first course
+    ├── pages/courses/[slug].astro  ← course detail page
+    ├── components/course/*.astro   ← page sections
+    ├── data/courses.ts             ← all course content
+    ├── lib/url.ts
+    └── styles/course.css
 ```
 
-Then:
+## 1. Run it
+
+Requires Node.js 22.12+ and npm (Webflow Cloud supports npm only).
 
 ```bash
+npm install
 npm run dev
-# open http://localhost:4321/academy/courses/design-thinking-innovation
+# open http://localhost:4321/courses/design-thinking-innovation
 ```
 
-Your Layout.astro must render `<Navbar client:load />`, `<slot />`, `<Footer client:load />`
-inside `<DevLinkProvider>`.
+It runs straight away with a placeholder header and footer.
 
-## Make it match Webflow exactly
+## 2. Pull your real header and footer from Webflow
 
-1. Fonts: in `src/styles/course.css` set `--hc-font-heading` / `--hc-font-body` to the
-   font names your Webflow site uses (Site settings → Fonts). If DevLink's global.css
-   already loads them, delete the Google Fonts `@import` on line 2.
-2. Navbar height: set `--hc-nav-h` to your Webflow Navbar height so the sticky
-   tabs and enroll card stop right under it.
-3. Colors: the tokens at the top of course.css were sampled from the design.
+1. In the Webflow Designer, make sure your header and footer are components named
+   exactly `Navbar` and `Footer`, then publish the site.
+2. Put your site ID in `webflow.json` (Site settings → General → Site ID).
+3. Run:
 
-## Add a course
+```bash
+npm install -g @webflow/webflow-cli
+webflow auth login
+npm run devlink          # = webflow devlink export
+```
 
-Add an object to `courses` in `src/data/courses.ts` (and a card to `courseCards`).
-A new page is generated at `/academy/courses/<slug>` automatically.
+This overwrites the placeholder files in `webflow/` with your real components and styles.
+If your components use properties, check `webflow/Navbar.tsx` for the prop names and
+pass them in `src/layouts/Layout.astro`.
+
+## 3. Deploy to Webflow Cloud
+
+1. Push this folder to a GitHub repo.
+2. Webflow → Happ Coach site settings → **Webflow Cloud** → install the GitHub app.
+3. **New project → Create app**, choose the repo, branch `main`, mount path `/academy`.
+4. Publish the site. The page is live at `yoursite.com/academy/courses/design-thinking-innovation`.
+
+Don't set `base` in astro.config.mjs — Webflow Cloud sets it from the mount path at
+build time. Images and links already use `withBase()` so they work under `/academy`.
+
+## Customising
+
+- **Fonts / colours / navbar height:** tokens at the top of `src/styles/course.css`.
+- **New course:** add an object to `courses` (and a card to `courseCards`) in
+  `src/data/courses.ts`; its page is generated automatically.
