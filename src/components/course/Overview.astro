@@ -3,14 +3,18 @@ import type { Course } from '../../data/courses';
 interface Props { course: Course }
 const { course } = Astro.props;
 ---
-<section class="hc-overview hc-anchor" id="overview">
-  <h2 class="hc-h2">Overview</h2>
-  <div class="hc-overview__cards">
-    {course.overview.map((item) => (
-      <article class="hc-info">
-        <h3>{item.title}</h3>
-        <p>{item.text}</p>
-      </article>
-    ))}
-  </div>
-</section>
+{course.overview.length > 0 && (
+  <section class="hc-overview hc-anchor" id="overview">
+    <h2 class="hc-h2">Overview</h2>
+    <div class="hc-overview__cards">
+      {course.overview.map((item) => (
+        <article class="hc-info">
+          <h3>{item.title}</h3>
+          {item.html
+            ? <div class="hc-info__html" set:html={item.html} />
+            : <p>{item.text}</p>}
+        </article>
+      ))}
+    </div>
+  </section>
+)}

@@ -272,7 +272,7 @@
   font-weight: 600;
   font-size: 20px;
 }
-.hc-module__title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.hc-module__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hc-module .hc-pill { color: var(--hc-white); border-color: var(--hc-white); font-family: var(--hc-font-body); font-weight: 600; }
 .hc-module[open] .hc-pill { background: rgba(255,255,255,.12); }
 .hc-module > summary .hc-chev { transform: rotate(-90deg); }
@@ -441,3 +441,36 @@
   .hc-faqs__more h3 { font-size: 24px; }
   .hc-faqs__more .hc-btn { width: 100%; }
 }
+
+/* ==========================================================================
+   Additions for Edmingle API data
+   ========================================================================== */
+.hc-price__strike { color: #8a8a8a; font-size: 18px; text-decoration: line-through; }
+
+.hc-btn--ghost {
+  background: transparent;
+  color: var(--hc-white);
+  border-color: var(--hc-white);
+  box-shadow: none;
+}
+.hc-btn--ghost:hover { transform: none; box-shadow: none; background: rgba(255, 255, 255, .08); }
+.hc-enroll .hc-btn--lg + .hc-btn--lg { margin-top: 12px; }
+
+/* Topic with lessons directly inside (single-subject Edmingle course) */
+.hc-module--flat .hc-lessons { border-top: 0; padding-top: 10px; }
+
+/* Rich text from Edmingle in overview cards */
+.hc-info__html { margin-top: 14px; color: var(--hc-muted); font-size: 15px; line-height: 1.6; }
+.hc-info__html :where(p, ul, ol) { margin: 0 0 10px; }
+.hc-info__html :where(ul, ol) { padding-left: 20px; }
+.hc-info__html :where(strong, b) { color: var(--hc-white); font-weight: 600; }
+.hc-info__html a { color: var(--hc-yellow); }
+.hc-info__html > :last-child { margin-bottom: 0; }
+
+/* Grid/flex children default to min-width:auto, so a long one-line module
+   title pushed the curriculum wider than its column. Let them shrink. */
+.hc-grid > *,
+.hc-topic,
+.hc-module,
+.hc-module > summary,
+.hc-topic > summary > span { min-width: 0; }

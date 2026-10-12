@@ -1,0 +1,47 @@
+---
+// Edmingle sign-up / checkout popup — the same setup as MHB's app/layout.tsx
+// + public/assets/inst.js. It turns any button with the class
+// `course-landing-buy_<bundleId>` into a "Buy Now" that opens Edmingle's
+// checkout, and `enrollFree_<bundleId>` into a free-preview sign-up.
+// Only loads when PUBLIC_EDMINGLE_SUBDOMAIN / EDMINGLE.subdomain is set.
+import { EDMINGLE } from '../../config/edmingle';
+const sub = EDMINGLE.subdomain;
+---
+{sub && (
+  <>
+    <iframe
+      src={`https://${sub}.edmingle.com/js-sdks/signup-sdk/iframe.php?subdomain=${sub}`}
+      id="iframe"
+      class="hc-edmingle-iframe"
+      title="Sign up"
+    ></iframe>
+    <script is:inline defer src="https://code.jquery.com/jquery-3.6.3.slim.min.js"></script>
+    <script is:inline defer src={`https://${sub}.edmingle.com/js-sdks/signup-sdk/signup-sdk.js?v=2.8`}></script>
+    <script is:inline>
+      // Same calls as MHB's inst.js, run once the SDK above has loaded.
+      window.addEventListener('load', function () {
+        var call = function (name) {
+          if (typeof window[name] === 'function') {
+            try { window[name](); } catch (e) { console.warn('Edmingle ' + name + ' failed', e); }
+          }
+        };
+        window.iframeEl = document.getElementById('iframe');
+        ['initLoginLinks', 'setEnrolButtonClick', 'setEnrolButtonClickFree',
+         'checkGoogleAuthCode', 'checkFacebookAuthCode', 'setParentUrl',
+         'loadInstBundleDetails'].forEach(call);
+      });
+    </script>
+  </>
+)}
+
+<style is:global>
+  .hc-edmingle-iframe {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+    z-index: 10000; /* above the Webflow navbar (9999) */
+    display: none;  /* the SDK shows it when someone clicks Buy Now */
+  }
+</style>

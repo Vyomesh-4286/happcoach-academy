@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
-// Course content. One entry per course; the page at /courses/[slug] reads it.
-// Later you can replace this file with a fetch from the Webflow CMS API
-// (see README) without touching any component.
+// Local course content. Used when the Edmingle API is NOT configured
+// (see src/config/edmingle.ts). When it is configured, courses come from the
+// API instead and this file only provides the shared types.
 // ---------------------------------------------------------------------------
 
 export type LessonType =
@@ -30,7 +30,10 @@ export interface Module {
 
 export interface Topic {
   title: string;
-  modules: Module[];
+  /** Topic → modules → lessons. */
+  modules?: Module[];
+  /** Or lessons directly under the topic (no module level). */
+  lessons?: Lesson[];
 }
 
 export interface Testimonial {
@@ -47,6 +50,10 @@ export interface Faq {
 
 export interface Course {
   slug: string;
+  /** Edmingle institution_bundle_id — set only for courses from the API. */
+  edmingleBundleId?: number;
+  /** Show the "Enrol for free" button (Edmingle free preview). */
+  freePreview?: boolean;
   category: string;
   eyebrow: string;
   title: string;
@@ -57,6 +64,8 @@ export interface Course {
   learners: string;
   duration: string;
   price: string;
+  /** Old price shown with a strike-through, e.g. "₹999/-". */
+  priceStrike?: string;
   priceNote: string;
   image: string;
   imageAlt: string;
@@ -65,13 +74,15 @@ export interface Course {
   enrollHref: string;
   guarantee: string;
   includes: string[];
-  overview: { title: string; text: string }[];
+  /** `html` (from the API) is shown instead of `text` when present. */
+  overview: { title: string; text: string; html?: string }[];
   curriculum: {
     summary: string;
     topics: Topic[];
     downloadHref: string;
   };
   testimonials: Testimonial[];
+  /** Slugs of courses for "Explore More Courses". */
   related: string[];
   faqIntro: string;
   faqs: Faq[];

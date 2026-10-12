@@ -7,17 +7,19 @@ const { course } = Astro.props;
 <header class="hc-hero">
   <div class="hc-hero__eyebrow">
     <span>{course.eyebrow}</span>
-    <span class="hc-pill">{course.category}</span>
+    {course.category && <span class="hc-pill">{course.category}</span>}
   </div>
-  <h1 class="hc-hero__title">{course.title} <em>{course.titleAccent}</em></h1>
-  <p class="hc-hero__tagline">{course.tagline}</p>
-  <p class="hc-hero__desc">{course.description}</p>
+  <h1 class="hc-hero__title">{course.title} {course.titleAccent && <em>{course.titleAccent}</em>}</h1>
+  {course.tagline && <p class="hc-hero__tagline">{course.tagline}</p>}
+  {course.description && <p class="hc-hero__desc">{course.description}</p>}
   <div class="hc-hero__meta">
-    <span class="hc-hero__rating" aria-label={`Rated ${course.rating} out of 5`}>
-      {course.rating}
-      <span class="hc-stars">{Array.from({ length: 5 }, () => <Icon name="star" size={20} />)}</span>
-    </span>
-    <span><Icon name="user" size={20} />{course.learners}</span>
-    <span><Icon name="clock" size={20} />{course.duration}</span>
+    {course.rating > 0 && (
+      <span class="hc-hero__rating" aria-label={`Rated ${course.rating} out of 5`}>
+        {course.rating}
+        <span class="hc-stars">{Array.from({ length: 5 }, () => <Icon name="star" size={20} />)}</span>
+      </span>
+    )}
+    {course.learners && <span><Icon name="user" size={20} />{course.learners}</span>}
+    {course.duration && <span><Icon name="clock" size={20} />{course.duration}</span>}
   </div>
 </header>

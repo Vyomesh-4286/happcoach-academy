@@ -1,5 +1,7 @@
 ---
-// Course detail page → /academy/courses/<slug>
+// Course detail page → <mount path>/courses/<slug>
+// Data comes from src/lib/catalog.ts: the Edmingle API when configured,
+// otherwise the local files in src/data/.
 import Layout from '../../layouts/Layout.astro';
 import CourseHero from '../../components/course/CourseHero.astro';
 import EnrollCard from '../../components/course/EnrollCard.astro';
@@ -9,21 +11,26 @@ import Curriculum from '../../components/course/Curriculum.astro';
 import Testimonials from '../../components/course/Testimonials.astro';
 import ExploreCourses from '../../components/course/ExploreCourses.astro';
 import Faqs from '../../components/course/Faqs.astro';
-import { courses, courseCards, getCourse } from '../../data/courses';
+import EdmingleSdk from '../../components/course/EdmingleSdk.astro';
+import { getCoursePage, getCourseSlugs } from '../../lib/catalog';
 import '../../styles/course.css';
 
-// Pre-render every course at build time (fast, works on Webflow Cloud).
+// Built at deploy time: every course becomes a fast static page.
+// To refresh prices/curriculum after changing them in Edmingle, redeploy
+// (Webflow Cloud → Deploy latest commit, or the GitHub "Refresh courses" action).
 export const prerender = true;
-export function getStaticPaths() {
-  return courses.map((c) => ({ params: { slug: c.slug } }));
+
+export async function getStaticPaths() {
+  const slugs = await getCourseSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
-const course = getCourse(Astro.params.slug!)!;
-const related = course.related
-  .map((slug) => courseCards.find((c) => c.slug === slug))
-  .filter((c) => !!c);
+const page = await getCoursePage(Astro.params.slug!);
+if (!page) throw new Error(`Course not found: ${Astro.params.slug}`);
+const { course, related } = page;
+const pageTitle = [course.title, course.titleAccent].filter(Boolean).join(' ');
 ---
-<Layout title={`${course.title} ${course.titleAccent} | Happ Coach Academy`}>
+<Layout title={`${pageTitle} | Happ Coach Academy`} description={course.tagline}>
   <div class="hc-page">
     <div class="hc-top hc-container">
       <div class="hc-grid">
@@ -36,8 +43,9 @@ const related = course.related
         </div>
       </div>
     </div>
-    <Testimonials items={course.testimonials} />
-    <ExploreCourses cards={related} />
+    {course.testimonials.length > 0 && <Testimonials items={course.testimonials} />}
+    {related.length > 0 && <ExploreCourses cards={related} />}
     <Faqs intro={course.faqIntro} items={course.faqs} contactHref={course.contactHref} />
   </div>
+  <EdmingleSdk />
 </Layout>
